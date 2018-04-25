@@ -749,7 +749,7 @@ class MainHorizontalWindow(QtGui.QMainWindow, Horizontal_ui.Ui_MainWindow):
 
 
 #--------------Scan-------------------------------------------------------------
-
+##pas mal!  j'ai ajouté un peu des commentaires avec ## ...
 
     def Scan(self):
 
@@ -762,8 +762,9 @@ class MainHorizontalWindow(QtGui.QMainWindow, Horizontal_ui.Ui_MainWindow):
 
 
         # LOM = []
-        LIM = []
-        LY = []
+        LIM = []    
+        LY = []     ## lst_y ou y_values ou autre?! minuscules pour les variables et noms un peu plus descriptifs...
+                    ##si on respecte les conventions, le code devien plus lisible !
         LZ = []
 
 
@@ -771,20 +772,20 @@ class MainHorizontalWindow(QtGui.QMainWindow, Horizontal_ui.Ui_MainWindow):
             for i in range(0, diameterY, pasY):                    #Boucle mouvement vertical haut
                 # L = spec.wavelengths()  # Liste des Longueurs d'ondes
                  #l = spec.intensities()  # Liste des Intensités
-                y = pasY                     # Valeur du pas en step
+                y = pasY                     # Valeur du pas en step    ## pourquoi on a besoin de cette def, une variable est suffisant il me semble..
                 mouve(5, y, 'RELAT')                # On se déplace par rapport à la valeur précédente
                 LIM.append(max(spec.intensities()))       # On stocke l'intensité max à chaque point
                 Y = execution(ser, '?CNT' + str(5))        # On lit la coordonée en Y
                 Z = execution(ser, '?CNT' + str(6))        # On lit la coordonée en Z
                 LY.append(Y)           # On stocke la coordonée en Y
-                LZ.append(Z)           # On stocke la coordonée en Z
+                LZ.append(Z)           # On stocke la coordonée en Z    ## dans cette boucle Z sera toujours le meme...on a besoin d'une liste ?
 
                 #print('+z', w, i)
                 print(max(spec.intensities()))     # Indication de l'intensité max à chaque tour
 
             z = 300              # Valeur du pas de Z en step
             mouve(6, z, 'RELAT')       # on se déplace par rapport à la valeur précédente
-            for i in range(0, diameterY, pasY):             # Boucle mouvement veritcal bas
+            for i in range(0, diameterY, pasY):             # Boucle mouvement veritcal bas ## on peut eviter cette deuxieme boucle si on crée une boucle qui part d'une cordonnée negative
                 # L = spec.wavelengths()  # Liste des Longeurs d'ondes
                 #l = spec.intensities()  # Liste des Intensités
                 y = pasY
@@ -799,7 +800,7 @@ class MainHorizontalWindow(QtGui.QMainWindow, Horizontal_ui.Ui_MainWindow):
             z = 300
             mouve(6, z, 'RELAT')
 
-        cLZ = np.asarray(LZ)
+        cLZ = np.asarray(LZ)  ##on peut pas utiliser les array numpy depuis le debut ?
         cLY = np.asarray(LY)
         cLim = np.asarray(LIM)
 
