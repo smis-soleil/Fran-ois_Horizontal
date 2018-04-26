@@ -772,13 +772,12 @@ class MainHorizontalWindow(QtGui.QMainWindow, Horizontal_ui.Ui_MainWindow):
             for i in range(0, diameterY, pasY):                    #Boucle mouvement vertical haut
                 # L = spec.wavelengths()  # Liste des Longueurs d'ondes
                  #l = spec.intensities()  # Liste des Intensités
-                y = pasY                     # Valeur du pas en step    ## pourquoi on a besoin de cette def, une variable est suffisant il me semble..
-                mouve(5, y, 'RELAT')                # On se déplace par rapport à la valeur précédente
+                mouve(5, pasY, 'RELAT')                # On se déplace par rapport à la valeur précédente
                 LIM.append(max(spec.intensities()))       # On stocke l'intensité max à chaque point
                 Y = execution(ser, '?CNT' + str(5))        # On lit la coordonée en Y
                 Z = execution(ser, '?CNT' + str(6))        # On lit la coordonée en Z
                 LY.append(Y)           # On stocke la coordonée en Y
-                LZ.append(Z)           # On stocke la coordonée en Z    ## dans cette boucle Z sera toujours le meme...on a besoin d'une liste ?
+                LZ.append(Z)           # On stocke la coordonée en Z    ## dans cette boucle Z sera toujours le meme...on a besoin d'une liste ? #*# Z change à chaque itération, c'est z qui reste identique
 
                 #print('+z', w, i)
                 print(max(spec.intensities()))     # Indication de l'intensité max à chaque tour
@@ -787,9 +786,8 @@ class MainHorizontalWindow(QtGui.QMainWindow, Horizontal_ui.Ui_MainWindow):
             mouve(6, z, 'RELAT')       # on se déplace par rapport à la valeur précédente
             for i in range(0, diameterY, pasY):             # Boucle mouvement veritcal bas ## on peut eviter cette deuxieme boucle si on crée une boucle qui part d'une cordonnée negative
                 # L = spec.wavelengths()  # Liste des Longeurs d'ondes
-                #l = spec.intensities()  # Liste des Intensités
-                y = pasY
-                mouve(5, -y, 'RELAT')
+                # l = spec.intensities()  # Liste des Intensités
+                mouve(5, -pasY, 'RELAT')
                 LIM.append(max(spec.intensities()))
                 Y = execution(ser, '?CNT' + str(5))
                 Z = execution(ser, '?CNT' + str(6))
@@ -800,7 +798,7 @@ class MainHorizontalWindow(QtGui.QMainWindow, Horizontal_ui.Ui_MainWindow):
             z = 300
             mouve(6, z, 'RELAT')
 
-        cLZ = np.asarray(LZ)  ##on peut pas utiliser les array numpy depuis le debut ?
+        cLZ = np.asarray(LZ)  ##on peut pas utiliser les array numpy depuis le debut ? #*# Si l'on utilise pas les matrices ou les représentations 3D les listes sont plus adaptées 
         cLY = np.asarray(LY)
         cLim = np.asarray(LIM)
 
