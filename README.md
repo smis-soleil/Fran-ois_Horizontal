@@ -1,4 +1,4 @@
-# Fran-ois_Horizontal
+# Francois_Horizontal
 
 Fonction Scan à la fin de main.py
 
