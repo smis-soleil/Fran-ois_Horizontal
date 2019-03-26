@@ -1,0 +1,29 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+import numpy as np
+import sys, os
+from os import listdir
+from os.path import isfile,join
+import pressure
+import peak
+from matplotlib.ticker import FormatStrFormatter
+from matplotlib import rcParams
+from matplotlib.figure import Figure
+import jnius_config
+import time, datetime
+
+def JVM_setup():
+	# jnius_config.add_options('-Xmx512m')
+	OceanDir = "C:\Program Files\Ocean Optics\OmniDriver\OOI_HOME"
+	lsj      = [i for i in listdir(OceanDir) if isfile(join(OceanDir,i)) and i.endswith(".jar")]
+	for j in lsj:
+		jnius_config.add_classpath(join(OceanDir,j))
+if not jnius_config.vm_running:
+	JVM_setup()
+	
+from jnius import autoclass
+Wrapper= autoclass("com.oceanoptics.omnidriver.api.wrapper.Wrapper")
+
+Spectrometer = Wrapper()
+NoOfSpectrometers = Spectrometer.openAllSpectrometers()
+print(NoOfSpectrometers)
